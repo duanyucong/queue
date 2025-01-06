@@ -1,0 +1,9 @@
+<!--index.wxml-->
+<view class="container">
+  <view class="splash-content">
+    <image class="logo" src="/images/logo.png" mode="aspectFit"></image>
+    <view class="title">排队小程序</view>
+    <view class="subtitle">便捷排队，省时省力</view>
+    <button class="start-button" type="primary" bindtap="handleStart">立即开始</button>
+  </view>
+</view>

@@ -1,0 +1,203 @@
+page {
+  height: 100vh;
+  background-color: #f2f2f7;
+}
+
+.page {
+  height: 100vh;
+  background-color: #f2f2f7;
+  position: relative;
+}
+
+/* 导航栏样式 */
+.nav-bar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  background: #fff;
+  z-index: 100;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.nav-bar-inner {
+  height: 44px;
+  display: flex;
+  align-items: center;
+  position: relative;
+}
+
+.back-btn {
+  position: absolute;
+  left: 0;
+  height: 44px;
+  width: 44px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.back-arrow {
+  width: 12px;
+  height: 12px;
+  border-left: 2px solid #000;
+  border-bottom: 2px solid #000;
+  transform: rotate(45deg);
+  margin-left: 16px;
+}
+
+.nav-title {
+  width: 100%;
+  text-align: center;
+  font-size: 40rpx;
+  font-weight: 500;
+  color: #000;
+}
+
+/* 内容区域样式 */
+.content {
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: #f2f2f7;
+}
+
+.form-header {
+  padding: 32rpx;
+  background: #fff;
+}
+
+.title {
+  font-size: 40rpx;
+  font-weight: 600;
+  color: #000;
+  margin-bottom: 12rpx;
+  display: block;
+}
+
+.subtitle {
+  font-size: 32rpx;
+  color: #8e8e93;
+  display: block;
+  text-align: center;
+  margin-bottom: 24rpx;
+}
+
+.form-group {
+  margin-top: 24rpx;
+  background: #fff;
+}
+
+.form-cell {
+  padding: 32rpx;
+  position: relative;
+}
+
+.form-cell::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 32rpx;
+  right: 32rpx;
+  height: 1rpx;
+  background-color: #e5e5e5;
+}
+
+.form-cell:last-child::after {
+  display: none;
+}
+
+.label {
+  font-size: 32rpx;
+  color: #000;
+  margin-bottom: 16rpx;
+  display: block;
+}
+
+.input {
+  width: 100%;
+  height: 88rpx;
+  font-size: 32rpx;
+  color: #000;
+  padding: 0;
+  border: none;
+}
+
+.textarea {
+  width: 100%;
+  height: 200rpx;
+  font-size: 32rpx;
+  color: #000;
+  padding: 0;
+  border: none;
+  margin-bottom: 8rpx;
+}
+
+.word-count {
+  font-size: 24rpx;
+  color: #8e8e93;
+  text-align: right;
+  display: block;
+}
+
+.time-picker-group {
+  display: flex;
+  flex-direction: column;
+  gap: 24rpx;
+}
+
+.time-picker {
+  display: flex;
+  align-items: center;
+  height: 88rpx;
+}
+
+.time-label {
+  font-size: 32rpx;
+  color: #000;
+  width: 80rpx;
+}
+
+.time-value {
+  flex: 1;
+  font-size: 32rpx;
+  color: #007aff;
+}
+
+.arrow {
+  width: 16rpx;
+  height: 16rpx;
+  border-right: 4rpx solid #8e8e93;
+  border-bottom: 4rpx solid #8e8e93;
+  transform: rotate(-45deg);
+}
+
+.button-group {
+  padding: 32rpx;
+  margin-top: 48rpx;
+  margin-bottom: calc(env(safe-area-inset-bottom) + 32rpx);
+}
+
+.submit-btn {
+  width: 100%;
+  height: 96rpx;
+  line-height: 96rpx;
+  background: #007aff;
+  color: #fff;
+  font-size: 36rpx;
+  font-weight: 500;
+  border-radius: 16rpx;
+  border: none;
+}
+
+.submit-btn:active {
+  opacity: 0.8;
+}
+
+/* 适配 iPhone 安全区域 */
+@supports (padding-bottom: env(safe-area-inset-bottom)) {
+  .page {
+    padding-bottom: calc(env(safe-area-inset-bottom) + 32rpx);
+  }
+}

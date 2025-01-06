@@ -1,0 +1,4 @@
+<view class="container">
+  <button bindtap="registerAsShop">注册为商家</button>
+  <button bindtap="registerAsUser">注册为用户</button>
+</view> 

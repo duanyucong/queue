@@ -1,0 +1,28 @@
+<navigation-bar title="Weixin" back="{{false}}" color="black" background="#FFF"></navigation-bar>
+<scroll-view class="scrollarea" scroll-y type="list">
+  <!-- 添加显示当前排队人数和预计排队时间 -->
+  <view class="queue-info">
+    <view class="queue-stats">
+      <view class="stat-item">
+        <text class="stat-label">当前排队人数</text>
+        <text class="stat-value">{{queueCount || 0}}人</text>
+      </view>
+      <view class="stat-item">
+        <text class="stat-label">预计等待时间</text>
+        <text class="stat-value">{{waitingTime || 0}}分钟</text>
+      </view>
+    </view>
+    
+    <button class="queue-button" type="primary" bindtap="startQueue">
+      开始排队
+    </button>
+  </view>
+  <!-- 添加轮播图片 -->
+  <swiper class="swiper-container" autoplay="true" interval="3000" duration="500">
+    <block wx:for="{{images}}" wx:key="*this">
+      <swiper-item>
+        <image src="{{item}}" class="swiper-image"></image>
+      </swiper-item>
+    </block>
+  </swiper>
+</scroll-view> 

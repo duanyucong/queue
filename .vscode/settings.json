@@ -1,0 +1,7 @@
+{
+    "files.associations": {
+        "*.wxml": "html",
+        "*.wxss": "css"
+    },
+    "Codegeex.RepoIndex": true
+}

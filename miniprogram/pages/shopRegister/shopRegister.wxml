@@ -1,0 +1,68 @@
+<view class="page">
+  <!-- 自定义导航栏 -->
+  <view class="nav-bar" style="padding-top: {{statusBarHeight}}px">
+    <view class="nav-bar-inner">
+      <view class="back-btn" bindtap="navigateBack">
+        <text class="back-arrow"></text>
+      </view>
+      <text class="nav-title">商家注册</text>
+    </view>
+  </view>
+
+  <scroll-view class="content" scroll-y style="top: {{statusBarHeight + 44}}px">
+    <view class="form-header">
+      <text class="subtitle">请填写您的店铺信息</text>
+    </view>
+
+    <view class="form-group">
+      <view class="form-cell">
+        <text class="label">店铺名称</text>
+        <input class="input" type="text" placeholder="请输入店铺名称" model:value="{{shopName}}" />
+      </view>
+      
+      <view class="form-cell">
+        <text class="label">联系电话</text>
+        <input class="input" type="number" placeholder="请输入联系电话" model:value="{{phone}}" />
+      </view>
+
+      <view class="form-cell">
+        <text class="label">店铺地址</text>
+        <input class="input" type="text" placeholder="请输入店铺地址" model:value="{{address}}" />
+      </view>
+    </view>
+
+    <view class="form-group">
+      <view class="form-cell">
+        <text class="label">营业时间</text>
+        <view class="time-picker-group">
+          <picker mode="time" value="{{openTime}}" bindchange="bindOpenTimeChange">
+            <view class="time-picker">
+              <text class="time-label">开始</text>
+              <text class="time-value">{{openTime}}</text>
+              <text class="arrow"></text>
+            </view>
+          </picker>
+          <picker mode="time" value="{{closeTime}}" bindchange="bindCloseTimeChange">
+            <view class="time-picker">
+              <text class="time-label">结束</text>
+              <text class="time-value">{{closeTime}}</text>
+              <text class="arrow"></text>
+            </view>
+          </picker>
+        </view>
+      </view>
+    </view>
+
+    <view class="form-group">
+      <view class="form-cell">
+        <text class="label">店铺简介</text>
+        <textarea class="textarea" placeholder="请输入店铺简介" model:value="{{description}}" maxlength="200" />
+        <text class="word-count">{{description.length}}/200</text>
+      </view>
+    </view>
+
+    <view class="button-group">
+      <button class="submit-btn" bindtap="submitForm">完成注册</button>
+    </view>
+  </scroll-view>
+</view>
