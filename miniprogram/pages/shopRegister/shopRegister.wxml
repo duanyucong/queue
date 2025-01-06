@@ -9,10 +9,8 @@
     </view>
   </view>
 
-  <scroll-view class="content" scroll-y style="top: {{statusBarHeight + 44}}px">
-    <view class="form-header">
-      <text class="subtitle">请填写您的店铺信息</text>
-    </view>
+  <scroll-view class="content" scroll-y style="top:{{statusBarHeight + 44}}px">
+
 
     <view class="form-group">
       <view class="form-cell">

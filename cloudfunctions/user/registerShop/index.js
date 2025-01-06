@@ -17,7 +17,7 @@ exports.main = async (event, context) => {
   try {
     // 检查是否已经注册
     const existingShop = await db.collection('shops').where({
-      userId: openid
+      _openid: openid
     }).get();
 
     if (existingShop.data.length > 0) {
@@ -30,14 +30,16 @@ exports.main = async (event, context) => {
     // 创建新商家记录
     const result = await db.collection('shops').add({
       data: {
-        userId: openid,
+        _openid: openid,
         shopName,
         phone,
         address,
         openTime,
         closeTime,
         description,
-        status: 'active',
+        status: 1,
+        queueCount: 0,
+        avgWaitTime: 15,
         createTime: db.serverDate(),
         updateTime: db.serverDate()
       }
@@ -45,10 +47,10 @@ exports.main = async (event, context) => {
 
     // 更新用户角色
     const userResult = await db.collection('users').where({
-      userId: openid
+      _openid: openid
     }).update({
       data: {
-        role: 'shop',
+        userType: 1,
         shopId: result._id,
         updateTime: db.serverDate()
       }

@@ -1,0 +1,65 @@
+<view class="page">
+  <!-- 自定义导航栏 -->
+  <view class="nav-bar" style="padding-top: {{statusBarHeight}}px">
+    <view class="nav-bar-inner">
+      <text class="nav-title">店铺管理</text>
+    </view>
+  </view>
+
+  <scroll-view class="content" scroll-y style="top:{{statusBarHeight + 44}}px">
+    <!-- 店铺信息卡片 -->
+    <view class="shop-card">
+      <view class="shop-header">
+        <text class="shop-name">{{shopInfo.shopName}}</text>
+        <view class="shop-status {{shopInfo.status === 1 ? 'active' : 'inactive'}}">
+          <text>{{shopInfo.status === 1 ? '营业中' : '已打烊'}}</text>
+        </view>
+      </view>
+      <view class="shop-info">
+        <view class="info-item">
+          <text class="label">当前排队</text>
+          <text class="value">{{shopInfo.queueCount}}人</text>
+        </view>
+        <view class="info-item">
+          <text class="label">预计等待</text>
+          <text class="value">{{shopInfo.avgWaitTime}}分钟</text>
+        </view>
+      </view>
+    </view>
+
+    <!-- 功能按钮组 -->
+    <view class="function-group">
+      <view class="function-item" bindtap="toggleShopStatus">
+        <image class="icon" src="../../images/status.png" />
+        <text class="text">{{shopInfo.status === 1 ? '暂停营业' : '开始营业'}}</text>
+      </view>
+      <view class="function-item" bindtap="manageQueue">
+        <image class="icon" src="../../images/queue.png" />
+        <text class="text">队列管理</text>
+      </view>
+      <view class="function-item" bindtap="editShopInfo">
+        <image class="icon" src="../../images/edit.png" />
+        <text class="text">店铺信息</text>
+      </view>
+    </view>
+
+    <!-- 今日数据统计 -->
+    <view class="statistics-card">
+      <text class="card-title">今日数据</text>
+      <view class="statistics-grid">
+        <view class="stat-item">
+          <text class="number">{{todayStats.totalCustomers || 0}}</text>
+          <text class="label">总服务人数</text>
+        </view>
+        <view class="stat-item">
+          <text class="number">{{todayStats.avgWaitTime || 0}}分钟</text>
+          <text class="label">平均等待</text>
+        </view>
+        <view class="stat-item">
+          <text class="number">{{todayStats.maxQueueLength || 0}}人</text>
+          <text class="label">最大排队</text>
+        </view>
+      </view>
+    </view>
+  </scroll-view>
+</view>

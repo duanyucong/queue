@@ -17,7 +17,7 @@ exports.main = async (event, context) => {
   try {
     // 检查是否已经注册
     const existingUser = await db.collection('users').where({
-      userId: openid
+      _openid: openid
     }).get();
 
     if (existingUser.data.length > 0) {
@@ -30,15 +30,16 @@ exports.main = async (event, context) => {
     // 创建新用户记录
     const result = await db.collection('users').add({
       data: {
-        userId: openid,
-        name,
+        _openid: openid,
+        nickName: name,
         phone,
         gender,
         age: parseInt(age),
-        role: 'user',
-        status: 'active',
+        userType: 0,
+        status: 1,
         createTime: db.serverDate(),
-        updateTime: db.serverDate()
+        updateTime: db.serverDate(),
+        lastLoginTime: db.serverDate()
       }
     });
 

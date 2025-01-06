@@ -99,5 +99,11 @@ Page({
         console.error('[注册失败]', err);
       }
     });
+  },
+
+  navigateBack() {
+    wx.navigateBack({
+      delta: 1
+    })
   }
 });

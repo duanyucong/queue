@@ -5,7 +5,8 @@
     "pages/profile/profile",
     "pages/register/register",
     "pages/shopRegister/shopRegister",
-    "pages/userRegister/userRegister"
+    "pages/userRegister/userRegister",
+    "pages/shopManagement/shopManagement"
   ],
   "window": {
     "navigationBarBackgroundColor": "#ffffff",
