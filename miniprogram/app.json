@@ -6,7 +6,8 @@
     "pages/register/register",
     "pages/shopRegister/shopRegister",
     "pages/userRegister/userRegister",
-    "pages/shopManagement/shopManagement"
+    "pages/shopManagement/shopManagement",
+    "pages/restDaysSelection/restDaysSelection"
   ],
   "window": {
     "navigationBarBackgroundColor": "#ffffff",

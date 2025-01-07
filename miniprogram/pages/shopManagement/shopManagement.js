@@ -5,7 +5,8 @@ Page({
       shopName: '',
       status: 1,
       queueCount: 0,
-      avgWaitTime: 0
+      avgWaitTime: 0,
+      restDays: []
     },
     todayStats: {
       totalCustomers: 0,
@@ -87,9 +88,29 @@ Page({
 
   // 切换店铺营业状态
   async toggleShopStatus() {
+    const newStatus = this.data.shopInfo.status === 1 ? 0 : 1;
+
+    if (newStatus === 0) {
+      // 如果要暂停营业，询问是否设置休息日
+      wx.showActionSheet({
+        itemList: ['设置休息日', '直接暂停营业'],
+        success: (res) => {
+          if (res.tapIndex === 0) {
+            this.setRestDays();
+          } else {
+            this.updateShopStatus(newStatus);
+          }
+        }
+      });
+    } else {
+      this.updateShopStatus(newStatus);
+    }
+  },
+
+  // 更新店铺状态
+  async updateShopStatus(newStatus) {
     try {
       const db = wx.cloud.database();
-      const newStatus = this.data.shopInfo.status === 1 ? 0 : 1;
       
       await db.collection('shops').doc(this.data.shopInfo._id).update({
         data: {
@@ -112,6 +133,35 @@ Page({
         icon: 'none'
       });
     }
+  },
+
+  // 设置休息日
+  setRestDays() {
+    wx.navigateTo({
+      url: '../restDaysSelection/restDaysSelection' // 跳转到休息日选择页面
+    });
+  },
+
+  // 自定义休息日期
+  customRestDays() {
+    wx.showModal({
+      title: '自定义休息日期',
+      content: '请输入休息日期范围（例如：2023-10-01到2023-10-05）',
+      editable: true,
+      success: (res) => {
+        if (res.confirm) {
+          const customRange = res.content;
+          this.data.shopInfo.restDays.push(customRange);
+          this.setData({
+            'shopInfo.restDays': this.data.shopInfo.restDays
+          });
+          wx.showToast({
+            title: `已设置休息日期：${customRange}`,
+            icon: 'success'
+          });
+        }
+      }
+    });
   },
 
   // 跳转到队列管理页面

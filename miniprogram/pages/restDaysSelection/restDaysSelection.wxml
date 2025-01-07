@@ -1,0 +1,57 @@
+<view class="container">
+  <view class="nav-bar" style="padding-top: {{statusBarHeight}}px">
+    <view class="nav-bar-inner">
+      <view class="back-btn" bindtap="navigateBack">
+        <text class="back-arrow"></text>
+      </view>
+      <text class="nav-title">休息时间设置</text>
+    </view>
+  </view>
+
+  <view class="content">
+    <view class="mode-tabs">
+      <view class="tab {{selectionMode === 'week' ? 'active' : ''}}" 
+            bindtap="switchMode">
+        按星期设置
+      </view>
+      <view class="tab {{selectionMode === 'date' ? 'active' : ''}}" 
+            bindtap="switchMode">
+        按日期设置
+      </view>
+    </view>
+
+    <block wx:if="{{selectionMode === 'week'}}">
+      <view class="week-selection">
+        <view class="week-grid">
+          <view class="week-item {{selectedDays.includes(item.value) ? 'selected' : ''}}"
+                wx:for="{{days}}" 
+                wx:key="value"
+                data-value="{{item.value}}"
+                bindtap="toggleDaySelection">
+            <text>{{item.name}}</text>
+          </view>
+        </view>
+        <view class="tips">点击选择固定休息日</view>
+      </view>
+    </block>
+
+    <block wx:else>
+      <view class="date-selection">
+        <calendar id="calendar" bindselect="onDateSelect" />
+      </view>
+    </block>
+  </view>
+
+  <view class="footer">
+    <button class="confirm-btn" bindtap="confirmSelection">确认</button>
+  </view>
+</view>
+
+<wxs module="tools">
+  module.exports = {
+    formatDate: function(timestamp) {
+      var date = getDate(timestamp);
+      return date.getFullYear() + '-' + (date.getMonth() + 1) + '-' + date.getDate();
+    }
+  }
+</wxs>

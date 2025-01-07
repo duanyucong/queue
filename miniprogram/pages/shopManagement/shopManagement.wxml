@@ -61,5 +61,10 @@
         </view>
       </view>
     </view>
+
+    <view class="rest-days">
+      <text>休息日：</text>
+      <text>{{shopInfo.restDays.join(', ')}}</text>
+    </view>
   </scroll-view>
 </view>
