@@ -30,25 +30,40 @@ Page({
   // 获取店铺信息
   async getShopInfo() {
     try {
-      const db = wx.cloud.database();
-      const userInfo = wx.getStorageSync('userInfo');
-      
-      console.log('userInfo', userInfo._openid)
-      const res = await db.collection('shops').where({
-        _openid: userInfo._openid
-      }).get();
+      wx.showLoading({
+        title: '加载中...',
+      });
 
-      if (res.data.length > 0) {
+      const { result } = await wx.cloud.callFunction({
+        name: 'shop_manager',
+        data: {
+          type: 'getShopInfo'
+        }
+      });
+
+      if (result.code === 200 && result.data) {
         this.setData({
-          shopInfo: res.data[0]
+          shopInfo: {
+            shopName: result.data.shopName || '',
+            status: result.data.status || 1,
+            queueCount: result.data.queueCount || 0,
+            avgWaitTime: result.data.avgWaitTime || 0
+          }
+        });
+      } else {
+        wx.showToast({
+          title: result.message || '获取店铺信息失败',
+          icon: 'none'
         });
       }
-    } catch (err) {
-      console.error('获取店铺信息失败', err);
+    } catch (error) {
+      console.error('获取店铺信息失败：', error);
       wx.showToast({
         title: '获取店铺信息失败',
         icon: 'none'
       });
+    } finally {
+      wx.hideLoading();
     }
   },
 
