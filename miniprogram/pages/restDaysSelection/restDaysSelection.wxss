@@ -1,151 +1,12 @@
-.container {
-  min-height: 100vh;
-  background: #f7f7f7;
-  padding-bottom: calc(140rpx + env(safe-area-inset-bottom));
-  box-sizing: border-box;
+page {
+  height: 100vh;
+  background-color: #f2f2f7;
 }
 
-.content {
-  padding: 30rpx;
-  padding-top: calc(44px + env(safe-area-inset-top) + 30rpx);
-}
-
-.mode-tabs {
-  display: flex;
-  background: #fff;
-  padding: 4rpx;
-  border-radius: 8rpx;
-  margin-bottom: 30rpx;
-  box-shadow: 0 2rpx 8rpx rgba(0, 0, 0, 0.03);
-}
-
-.tab {
-  flex: 1;
-  text-align: center;
-  padding: 16rpx 0;
-  font-size: 28rpx;
-  color: #666;
+.page {
+  height: 100vh;
+  background-color: #f2f2f7;
   position: relative;
-  transition: all 0.3s;
-}
-
-.tab.active {
-  color: #07c160;
-  font-weight: 500;
-  background: rgba(7, 193, 96, 0.1);
-  border-radius: 6rpx;
-}
-
-.tab.active::after {
-  display: none;
-}
-
-.week-selection,
-.date-selection {
-  background: #fff;
-  border-radius: 12rpx;
-  padding: 40rpx 30rpx;
-  box-shadow: 0 2rpx 8rpx rgba(0, 0, 0, 0.03);
-}
-
-.week-grid {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 24rpx;
-  margin-bottom: 30rpx;
-}
-
-.week-item {
-  aspect-ratio: 1.2;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background: #f7f7f7;
-  border-radius: 8rpx;
-  font-size: 30rpx;
-  color: #333;
-  transition: all 0.3s;
-  position: relative;
-  padding: 20rpx;
-}
-
-.week-item.selected {
-  background: rgba(7, 193, 96, 0.1);
-  color: #07c160;
-  font-weight: 500;
-}
-
-.week-item.selected::after {
-  content: '';
-  position: absolute;
-  right: 10rpx;
-  bottom: 10rpx;
-  width: 12rpx;
-  height: 6rpx;
-  border-left: 2rpx solid #07c160;
-  border-bottom: 2rpx solid #07c160;
-  transform: rotate(-45deg);
-}
-
-.tips {
-  font-size: 26rpx;
-  color: #999;
-  text-align: center;
-  margin-top: 30rpx;
-  padding: 0 30rpx;
-}
-
-.date-picker {
-  display: flex;
-  flex-direction: column;
-  gap: 20rpx;
-}
-
-.date-item {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 24rpx;
-  background: #f7f7f7;
-  border-radius: 8rpx;
-}
-
-.date-item text {
-  color: #333;
-  font-size: 28rpx;
-}
-
-.picker-value {
-  color: #07c160;
-  font-size: 28rpx;
-  min-width: 180rpx;
-  text-align: right;
-}
-
-.footer {
-  position: fixed;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  padding: 30rpx;
-  background: #fff;
-  box-shadow: 0 -2rpx 10rpx rgba(0, 0, 0, 0.05);
-  padding-bottom: calc(30rpx + env(safe-area-inset-bottom));
-}
-
-.confirm-btn {
-  width: 100%;
-  height: 88rpx;
-  line-height: 88rpx;
-  background: #07c160;
-  color: #fff;
-  font-size: 32rpx;
-  border-radius: 8rpx;
-  font-weight: 500;
-}
-
-.confirm-btn:active {
-  opacity: 0.9;
 }
 
 /* 导航栏样式 */
@@ -156,7 +17,7 @@
   right: 0;
   background: #fff;
   z-index: 100;
-  box-shadow: 0 2rpx 8rpx rgba(0, 0, 0, 0.03);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
 }
 
 .nav-bar-inner {
@@ -167,25 +28,195 @@
 }
 
 .back-btn {
-  padding: 12px 16px;
-  z-index: 1;
+  position: absolute;
+  left: 0;
+  height: 44px;
+  width: 44px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .back-arrow {
-  display: inline-block;
-  width: 10px;
-  height: 10px;
-  border-left: 2px solid #333;
-  border-bottom: 2px solid #333;
+  width: 12px;
+  height: 12px;
+  border-left: 2px solid #000;
+  border-bottom: 2px solid #000;
   transform: rotate(45deg);
+  margin-left: 16px;
 }
 
 .nav-title {
+  width: 100%;
+  text-align: center;
+  font-size: 40rpx;
+  font-weight: 500;
+  color: #000;
+}
+
+.nav-right {
   position: absolute;
+  right: 16px;
+}
+
+.navbar-help {
+  color: #666;
+  font-size: 28rpx;
+}
+
+/* 模式选择器 */
+.mode-selector {
+  background: #fff;
+  margin: 24rpx;
+  border-radius: 12rpx;
+  display: flex;
+  padding: 8rpx;
+}
+
+.mode-option {
+  flex: 1;
+  text-align: center;
+  padding: 16rpx;
+  color: #666;
+  border-radius: 8rpx;
+  transition: all 0.3s ease;
+}
+
+.mode-option.active {
+  background-color: #07c160;
+  color: white;
+  font-weight: 500;
+}
+
+/* 内容区域样式 */
+.content {
+  position: fixed;
   left: 0;
   right: 0;
+  bottom: 0;
+  background-color: #f2f2f7;
+}
+
+.selection-panel {
+  background: #fff;
+  margin: 0 24rpx;
+  border-radius: 12rpx;
+  padding: 24rpx;
+}
+
+.week-grid {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 16rpx;
+}
+
+.week-day {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 16rpx;
+  border-radius: 8rpx;
+  background-color: #f0f0f0;
+  color: #666;
+  transition: all 0.3s ease;
+}
+
+.week-day.selected {
+  background-color: #07c160;
+  color: white;
+}
+
+.hint {
+  display: block;
   text-align: center;
-  font-size: 16px;
+  color: #999;
+  margin-top: 16rpx;
+  font-size: 24rpx;
+}
+
+.date-picker {
+  display: flex;
+  justify-content: center;
+}
+
+.footer {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: #fff;
+  padding: 16rpx 24rpx env(safe-area-inset-bottom);
+  box-shadow: 0 -1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.confirm-btn {
+  width: 100%;
+  border-radius: 12rpx;
   font-weight: 500;
-  color: #333;
+  background-color: #07c160;
+  color: white;
+  font-size: 32rpx;
+  height: 80rpx;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+}
+
+/* 模态框样式 */
+.modal-mask {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+  z-index: 200;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.modal-container {
+  width: 80%;
+  background-color: #fff;
+  border-radius: 12rpx;
+  overflow: hidden;
+}
+
+.modal-header {
+  background-color: #f2f2f7;
+  padding: 24rpx;
+  text-align: center;
+}
+
+.modal-title {
+  font-size: 36rpx;
+  font-weight: 500;
+  color: #000;
+}
+
+.modal-content {
+  padding: 32rpx;
+  font-size: 28rpx;
+  color: #666;
+  line-height: 1.6;
+  text-align: left;
+}
+
+.modal-footer {
+  padding: 24rpx;
+  background-color: #f2f2f7;
+  display: flex;
+  justify-content: center;
+}
+
+.modal-btn {
+  width: 60%;
+  background-color: #07c160;
+  color: white;
+  border-radius: 8rpx;
+  font-size: 32rpx;
+  height: 80rpx;
+  line-height: 80rpx;
 }

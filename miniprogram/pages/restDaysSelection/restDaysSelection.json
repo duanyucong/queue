@@ -1,3 +1,6 @@
 {
-  "navigationBarTitleText": "休息时间设置"
-} 
+  "navigationBarTitleText": "选择休息时间",
+  "usingComponents": {
+    "van-calendar": "@vant/weapp/calendar/index"
+  }
+}
