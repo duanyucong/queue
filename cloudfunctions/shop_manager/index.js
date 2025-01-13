@@ -1,6 +1,7 @@
 // 店铺管理云函数入口文件
 const shopInfo = require('./shopInfo/index');
-const restDays = require('./restDays/index');
+const setRestDays = require('./setRestDays/index');
+const getRestDays = require('./getRestDays/index');
 
 // 云函数入口函数
 exports.main = async (event, context) => {
@@ -10,7 +11,9 @@ exports.main = async (event, context) => {
     case 'getShopInfo':
       return await shopInfo.main(event, context);
     case 'saveRestDays':
-      return await restDays.main(event, context);
+      return await setRestDays.main(event, context);
+    case 'getRestDays':
+      return await getRestDays.main(event, context);
     default:
       return {
         code: 400,

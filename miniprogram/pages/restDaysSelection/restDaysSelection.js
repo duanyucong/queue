@@ -41,7 +41,7 @@ Page({
 
       // 计算日历高度，预留底部空间
       const calendarHeight = screenHeight - 
-        (statusBarHeight + navBarHeight + restBoxHeight + footerHeight + 70);
+        (statusBarHeight + navBarHeight + restBoxHeight + footerHeight + 90);
 
       this.setData({
         statusBarHeight: statusBarHeight,
@@ -49,14 +49,44 @@ Page({
       });
     });
 
-    // 处理从上一页传递的休息日数据
-    if (options.restDays) {
-      const restDays = JSON.parse(options.restDays);
-      this.setData({
-        selectedDays: restDays.weekDays || [],
-        dateRange: restDays.dateRange || []
-      });
-    }
+    
+    // 获取店铺信息
+    wx.cloud.callFunction({
+      name: 'shop_manager',
+      data: {
+        type: 'getRestDays'
+      },
+      success: (res) => {
+        if (res.result.code === 200) {
+          const shopInfo = res.result.data;
+          
+          // 回显每周休息日
+          if (shopInfo.weeklyRestDays) {
+            this.setData({
+              selectedDays: shopInfo.weeklyRestDays
+            });
+          }
+
+          // 回显假期休息日
+          if (shopInfo.holidayRestDays) {
+            const startDate = new Date(shopInfo.holidayRestDays.startDate).getTime();
+            const endDate = new Date(shopInfo.holidayRestDays.endDate).getTime();
+            
+            this.setData({
+              dateRange: [startDate, endDate]
+            });
+          }
+
+          console.log('获取店铺信息成功', shopInfo);
+        } else {
+          console.error('获取店铺信息失败：', res.result);
+        }
+      },
+      fail: (err) => {
+        console.error('调用云函数失败', err);
+      }
+    });
+    
   },
 
   // 返回上一页
@@ -92,41 +122,59 @@ Page({
 
   // 处理日期选择
   onDateSelect(e) {
-    this.setData({
-      dateRange: e.detail
-    });
+    this.dateRange = e.detail;
   },
 
   // 确认选择
   confirmSelection() {
-    const pages = getCurrentPages();
-    const prevPage = pages[pages.length - 2];
+    wx.cloud.callFunction({
+      name: 'shop_manager',
+      data: {
+        type: 'saveRestDays',
+        data: {
+          weeklyRestDays: this.data.selectedDays.length > 0 ? this.data.selectedDays : null,
+          holidayRestDays: this.dateRange ? {
+            startDate: this.formatTimestamp(this.dateRange[0]),
+            endDate: this.formatTimestamp(this.dateRange[1])
+          } : null
+        }
+      }
+    }).then(res => {
+      const pages = getCurrentPages();
+      const prevPage = pages[pages.length - 2];
 
-    const restDays = {
-      weekDays: this.data.selectedDays,
-      dateRange: this.data.dateRange
-    };
+      const restDays = {
+        weekDays: this.data.selectedDays,
+        dateRange: this.dateRange
+      };
 
-    console.log('确认选择:', {
-      pages: pages.length,
-      prevPage: prevPage,
-      restDays: restDays
-    });
-
-    if (prevPage) {
-      prevPage.setData({
-        restDays: restDays
-      }, () => {
+      if (prevPage) {
+        prevPage.setData({
+          restDays: restDays
+        }, () => {
+          wx.showToast({
+            title: '保存成功',
+            icon: 'success'
+          });
+          setTimeout(() => {
+            wx.navigateBack({
+              delta: 1
+            });
+          }, 1500);
+        });
+      } else {
+        console.error('无法获取上一页');
         wx.navigateBack({
           delta: 1
         });
+      }
+    }).catch(err => {
+      console.error('保存休息日信息失败', err);
+      wx.showToast({
+        title: '保存失败',
+        icon: 'none'
       });
-    } else {
-      console.error('无法获取上一页');
-      wx.navigateBack({
-        delta: 1
-      });
-    }
+    });
   },
 
   // 格式化时间戳为日期字符串
