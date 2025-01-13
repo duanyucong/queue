@@ -29,9 +29,6 @@ module.exports = {
         <text class="back-arrow"></text>
       </view>
       <text class="nav-title">选择休息时间</text>
-      <view class="nav-right">
-        <text class="navbar-help" bindtap="showHelpModal">帮助</text>
-      </view>
     </view>
   </view>
 
@@ -93,23 +90,5 @@ module.exports = {
       bindtap="confirmSelection">
       确认选择
     </button>
-  </view>
-
-  <!-- 帮助模态框 -->
-  <view wx:if="{{showHelp}}" class="modal-mask" bindtap="hideHelpModal">
-    <view class="modal-container" catchtap="preventTap">
-      <view class="modal-header">
-        <text class="modal-title">休息日选择帮助</text>
-      </view>
-      <view class="modal-content">
-        <text>您可以通过两种方式选择休息日：\n\n</text>
-        <text>1. 按周选择：点击您想要休息的固定星期\n\n</text>
-        <text>2. 按日期选择：选择特定的日期范围\n\n</text>
-        <text>点击确认后，系统将记录您的休息时间设置。</text>
-      </view>
-      <view class="modal-footer">
-        <button class="modal-btn" bindtap="hideHelpModal">我知道了</button>
-      </view>
-    </view>
   </view>
 </view>

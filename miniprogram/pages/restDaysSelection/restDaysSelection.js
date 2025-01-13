@@ -15,7 +15,6 @@ Page({
     maxDate: new Date().setFullYear(new Date().getFullYear() + 1),
     dateRange: [],
     statusBarHeight: 0,
-    showHelp: false,
     calendarHeight: 618
   },
 
@@ -132,24 +131,5 @@ Page({
   formatTimestamp(timestamp) {
     const date = new Date(timestamp);
     return `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, '0')}-${String(date.getDate()).padStart(2, '0')}`;
-  },
-
-  // 显示帮助模态框
-  showHelpModal() {
-    this.setData({
-      showHelp: true
-    });
-  },
-
-  // 隐藏帮助模态框
-  hideHelpModal() {
-    this.setData({
-      showHelp: false
-    });
-  },
-
-  // 防止模态框内容冒泡
-  preventTap() {
-    // 空方法，用于阻止事件冒泡
   }
 });
