@@ -11,7 +11,6 @@ module.exports = {
   }
 }
 </wxs>
-
 <wxs module="tools">
   module.exports = {
     formatDate: function(timestamp) {
@@ -20,7 +19,6 @@ module.exports = {
     }
   }
 </wxs>
-
 <view class="page">
   <!-- 自定义导航栏 -->
   <view class="nav-bar" style="padding-top: {{statusBarHeight}}px">
@@ -28,67 +26,42 @@ module.exports = {
       <view class="back-btn" bindtap="navigateBack">
         <text class="back-arrow"></text>
       </view>
-      <text class="nav-title">选择休息时间</text>
+      <text class="nav-title">休息日</text>
     </view>
   </view>
-
   <view class="content" scroll-y style="top:{{statusBarHeight + 44}}px">
-    <view class="mode-selector">
-      <view 
-        class="mode-option {{selectionMode === 'week' ? 'active' : ''}}" 
-        data-mode="week" 
-        bindtap="switchMode">
-        <text>按周选择</text>
-      </view>
-      <view 
-        class="mode-option {{selectionMode === 'date' ? 'active' : ''}}" 
-        data-mode="date" 
-        bindtap="switchMode">
-        <text>按日期选择</text>
-      </view>
-    </view>
-
     <view class="selection-panel">
-      <block wx:if="{{selectionMode === 'week'}}">
-        <view class="week-grid">
-          <view 
-            wx:for="{{days}}" 
-            wx:key="value" 
-            class="week-day {{util.includes(selectedDays, item.value) ? 'selected' : ''}}"
-            data-value="{{item.value}}"
-            bindtap="toggleDaySelection">
-            <text>{{item.name}}</text>
+      <view class="mode-selector">
+        <view class="rest-box">
+          <view class="mode-title">每周休息</view>
+          <view class="week-grid">
+            <view wx:for="{{days}}" wx:key="value" class="week-day {{util.includes(selectedDays, item.value) ? 'selected' : ''}}" data-value="{{item.value}}" bindtap="toggleDaySelection">
+              <text>{{item.name}}</text>
+            </view>
           </view>
         </view>
-        <text class="hint">点击选择固定休息日</text>
-      </block>
-
-      <block wx:else>
-        <view class="date-picker">
-          <van-calendar 
-            class="calendar"
-            poppable="{{ false }}"
-            show-title="{{ false }}"
-            show-confirm="{{ false }}"
-            color="#07c160"
-            type="range"
-            min-date="{{minDate}}"
-            max-date="{{maxDate}}"
-            bind:confirm="onDateSelect"
-            default-date="{{dateRange}}"
-            style="--calendar-height: {{calendarHeight}}px;"
-          />
+        <view class="rest-box">
+          <view class="mode-title">假期休息</view>
+          <view class="date-picker">
+            <van-calendar 
+              class="calendar"
+              poppable="{{ false }}"
+              show-title="{{ false }}"
+              show-confirm="{{ false }}"
+              color="#07c160"
+              type="range"
+              min-date="{{minDate}}"
+              max-date="{{maxDate}}"
+              bind:confirm="onDateSelect"
+              default-date="{{dateRange}}"
+              style="height: {{calendarHeight}}px;"
+            />
+          </view>
         </view>
-      </block>
+      </view>
     </view>
   </view>
-
   <view class="footer">
-    <button 
-      class="confirm-btn" 
-      type="primary" 
-      bindtap="confirmSelection">
-      确认选择
-    </button>
+    <button class="confirm-btn" type="primary" bindtap="confirmSelection">确认选择</button>
   </view>
 </view>

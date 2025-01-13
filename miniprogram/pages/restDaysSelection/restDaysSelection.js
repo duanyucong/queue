@@ -10,43 +10,51 @@ Page({
       { name: '周日', value: 'SUN' }
     ],
     selectedDays: [],
-    selectionMode: 'week',
     minDate: new Date().getTime(),
     maxDate: new Date().setFullYear(new Date().getFullYear() + 1),
     dateRange: [],
     statusBarHeight: 0,
-    calendarHeight: 618
+    calendarHeight: 618,
+    weekSelectionEnabled: true,
+    dateSelectionEnabled: true
   },
 
   onLoad(options) {
-    // 获取状态栏高度
+    // 获取系统信息
     const systemInfo = wx.getSystemInfoSync();
     const screenHeight = systemInfo.screenHeight;
     const statusBarHeight = systemInfo.statusBarHeight;
-    const navBarHeight = 44;
-    const modeSelectHeight = 80; 
-    const footerHeight = 80; 
 
-    // 计算日历高度
-    const calendarHeight = screenHeight - 
-      (statusBarHeight + navBarHeight + modeSelectHeight + footerHeight) - 34;
-
-    this.setData({
-      statusBarHeight: statusBarHeight,
-      calendarHeight: Math.floor(calendarHeight),
-      selectedDays: [] 
-    });
+    // 创建 SelectorQuery 查询
+    const query = wx.createSelectorQuery();
     
-    // 如果有传入的数据，进行初始化
+    // 查询导航栏、模式选择器和底部按钮的高度
+    query.select('.nav-bar').boundingClientRect();
+    query.select('.rest-box').boundingClientRect();
+    query.select('.footer').boundingClientRect();
+
+    // 执行查询
+    query.exec((res) => {
+      const navBarHeight = res[0].height;
+      const restBoxHeight = res[1].height;
+      const footerHeight = res[2].height;
+
+      // 计算日历高度，预留底部空间
+      const calendarHeight = screenHeight - 
+        (statusBarHeight + navBarHeight + restBoxHeight + footerHeight + 70);
+
+      this.setData({
+        statusBarHeight: statusBarHeight,
+        calendarHeight: calendarHeight
+      });
+    });
+
+    // 处理从上一页传递的休息日数据
     if (options.restDays) {
       const restDays = JSON.parse(options.restDays);
       this.setData({
-        selectionMode: restDays.mode,
-        selectedDays: restDays.mode === 'week' ? restDays.data : [],
-        dateRange: restDays.mode === 'date' ? [
-          new Date(restDays.data.startDate).getTime(),
-          new Date(restDays.data.endDate).getTime()
-        ] : []
+        selectedDays: restDays.weekDays || [],
+        dateRange: restDays.dateRange || []
       });
     }
   },
@@ -65,22 +73,14 @@ Page({
     }
   },
 
-  // 切换选择模式
-  switchMode(e) {
-    const mode = e.currentTarget.dataset.mode;
-    this.setData({
-      selectionMode: mode
-    });
-  },
-
   // 处理星期选择
   toggleDaySelection(e) {
-    const value = e.currentTarget.dataset.value;
-    const selectedDays = [...this.data.selectedDays]; 
-    const index = selectedDays.indexOf(value);
+    const selectedValue = e.currentTarget.dataset.value;
+    const selectedDays = this.data.selectedDays;
+    const index = selectedDays.indexOf(selectedValue);
 
     if (index === -1) {
-      selectedDays.push(value);
+      selectedDays.push(selectedValue);
     } else {
       selectedDays.splice(index, 1);
     }
@@ -92,39 +92,41 @@ Page({
 
   // 处理日期选择
   onDateSelect(e) {
-    const { detail } = e;
     this.setData({
-      dateRange: [
-        new Date(detail[0]).getTime(), 
-        new Date(detail[1]).getTime()
-      ]
+      dateRange: e.detail
     });
   },
 
   // 确认选择
   confirmSelection() {
-    const { selectionMode, selectedDays, dateRange } = this.data;
-    
-    const restDays = {
-      mode: selectionMode,
-      data: selectionMode === 'week' 
-        ? selectedDays 
-        : {
-            startDate: this.formatTimestamp(dateRange[0]),
-            endDate: this.formatTimestamp(dateRange[1])
-          }
-    };
-
-    // 返回上一页并传递数据
     const pages = getCurrentPages();
     const prevPage = pages[pages.length - 2];
-    prevPage.setData({
+
+    const restDays = {
+      weekDays: this.data.selectedDays,
+      dateRange: this.data.dateRange
+    };
+
+    console.log('确认选择:', {
+      pages: pages.length,
+      prevPage: prevPage,
       restDays: restDays
     });
 
-    wx.navigateBack({
-      delta: 1
-    });
+    if (prevPage) {
+      prevPage.setData({
+        restDays: restDays
+      }, () => {
+        wx.navigateBack({
+          delta: 1
+        });
+      });
+    } else {
+      console.error('无法获取上一页');
+      wx.navigateBack({
+        delta: 1
+      });
+    }
   },
 
   // 格式化时间戳为日期字符串
