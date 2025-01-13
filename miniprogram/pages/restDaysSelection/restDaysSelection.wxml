@@ -1,3 +1,26 @@
+<wxs module="util">
+module.exports = {
+  includes: function(arr, item) {
+    if (!arr) return false;
+    for (var i = 0; i < arr.length; i++) {
+      if (arr[i] === item) {
+        return true;
+      }
+    }
+    return false;
+  }
+}
+</wxs>
+
+<wxs module="tools">
+  module.exports = {
+    formatDate: function(timestamp) {
+      var date = getDate(timestamp);
+      return date.getFullYear() + '-' + (date.getMonth() + 1) + '-' + date.getDate();
+    }
+  }
+</wxs>
+
 <view class="page">
   <!-- 自定义导航栏 -->
   <view class="nav-bar" style="padding-top: {{statusBarHeight}}px">
@@ -34,7 +57,7 @@
           <view 
             wx:for="{{days}}" 
             wx:key="value" 
-            class="week-day {{selectedDays.includes(item.value) ? 'selected' : ''}}"
+            class="week-day {{util.includes(selectedDays, item.value) ? 'selected' : ''}}"
             data-value="{{item.value}}"
             bindtap="toggleDaySelection">
             <text>{{item.name}}</text>
@@ -90,12 +113,3 @@
     </view>
   </view>
 </view>
-
-<wxs module="tools">
-  module.exports = {
-    formatDate: function(timestamp) {
-      var date = getDate(timestamp);
-      return date.getFullYear() + '-' + (date.getMonth() + 1) + '-' + date.getDate();
-    }
-  }
-</wxs>

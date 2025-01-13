@@ -25,8 +25,8 @@ Page({
     const screenHeight = systemInfo.screenHeight;
     const statusBarHeight = systemInfo.statusBarHeight;
     const navBarHeight = 44;
-    const modeSelectHeight = 80; // mode-selector 高度
-    const footerHeight = 80; // 底部按钮高度
+    const modeSelectHeight = 80; 
+    const footerHeight = 80; 
 
     // 计算日历高度
     const calendarHeight = screenHeight - 
@@ -34,7 +34,8 @@ Page({
 
     this.setData({
       statusBarHeight: statusBarHeight,
-      calendarHeight: Math.floor(calendarHeight)
+      calendarHeight: Math.floor(calendarHeight),
+      selectedDays: [] 
     });
     
     // 如果有传入的数据，进行初始化
@@ -76,7 +77,7 @@ Page({
   // 处理星期选择
   toggleDaySelection(e) {
     const value = e.currentTarget.dataset.value;
-    const selectedDays = this.data.selectedDays;
+    const selectedDays = [...this.data.selectedDays]; 
     const index = selectedDays.indexOf(value);
 
     if (index === -1) {
@@ -86,7 +87,7 @@ Page({
     }
 
     this.setData({
-      selectedDays
+      selectedDays: selectedDays
     });
   },
 
